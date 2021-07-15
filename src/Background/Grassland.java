@@ -1,12 +1,10 @@
 package Background;
 
-import javax.swing.JLabel;
-
 public class Grassland extends Background {
 	
 	public Grassland () {
 		this.setWalkable(true);
-		this.setPicture(new JLabel(this.getTransformedIcon("static/picture/grassland.png")));
+		this.setImage((this.getTransformedImage("static/picture/grassland.png")));
 	}
 	
 	public String toString() {

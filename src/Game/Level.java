@@ -1,27 +1,49 @@
 package Game;
 
-import java.awt.GridBagLayout;
+import java.awt.Graphics;
 
-import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import Background.Background;
 
+/**
+ * @author huangzhangyu
+ * A section of the game. Every level should have its own map, block and enemies settings. These settings should define by overriding abstract method "drawMap".
+ */
 public abstract class Level{
 	
-	protected Background[][] map;
-	protected JFrame frame;
+	protected Background[][] map = new Background[24][32];  //the position of background
+	protected JLayeredPane panel;  //show every component
+	protected JPanel background;  //layer to draw background
+	protected JPanel block;  //layer to draw real object
 	
-	public Level(){
-		this.map = new Background[24][32];
-		this.frame = new JFrame();
+	
+	/**
+	 * Make the map of the level by putting background object into map array in order.
+	 */
+	protected abstract void drawMap();
+	
+	/**
+	 * Draw background objects in the map onto background panel. This method should only be called once.
+	 */
+	protected void renderBackground() {
 		
-		this.frame.setSize(815, 640);
-		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.frame.setLayout(new GridBagLayout());;
+		this.background = new JPanel() {
+			
+			@Override
+			public void paint(Graphics g) {
+				super.paint(g);
+				for (int i = 0; i < map.length; i++) {
+					for (int j = 0; j < map[0].length; j++) {
+						g.drawImage(map[i][j].getImage(), j * 25, i * 25, this);
+					}
+				}
+			}
+			
+		};
 		
 	}
-	/**
-	 * 依序把map和實體放入frame
-	 */
-	public abstract void render();
+	
+	
 }

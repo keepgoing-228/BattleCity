@@ -1,28 +1,36 @@
 package Background;
 
 import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
 /**
- * @author huangzhangyu、AUAS
- * 背景類，所有道路的根源，紀錄道路的貼圖、行走資訊
+ * @author huangzhangyu
+ * Class for objects to draw on the background of the game. Object on the background cannot be touched
  */
 public abstract class Background {
-	private JLabel picture; //貼圖在Swing中是JLabel
-	private boolean walkable; //是否可以行走
-	
-	
+	private JLabel picture; //Label for showing the picture
+	private boolean walkable; //Whether tank can walk on this type of background
+	private Image image;  //Picture of the background block
+
 	/**
-	 * @param path 圖片位置
-	 * @return 大小相同的圖片
+	 * @param path the direction of the picture file
+	 * @return Image in 25x25 pixel
 	 */
-	public ImageIcon getTransformedIcon(String path) {
-		ImageIcon icon = new ImageIcon(path);
-		Image image = icon.getImage();
-		image = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH); //修飾每個相片元素
-		return new ImageIcon(image);
+	public Image getTransformedImage(String path) {
+
+		try {
+			Image image = ImageIO.read(new File(path));
+			image = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH); //Read the file
+			return image;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 	
 	
@@ -37,5 +45,11 @@ public abstract class Background {
 	}
 	public void setWalkable(boolean walkable) {
 		this.walkable = walkable;
+	}
+	public Image getImage() {
+		return image;
+	}
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }
