@@ -6,23 +6,22 @@ import javax.swing.JFrame;
 
 import Background.Background;
 
-public abstract class Level {
-
+public abstract class Level{
+	
 	protected Background[][] map;
 	protected JFrame frame;
 	
-	public Level() {
+	public Level(){
 		this.map = new Background[24][32];
 		this.frame = new JFrame();
 		
-		this.frame.setSize(800, 600);
+		this.frame.setSize(815, 640);
 		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.frame.setLayout(new GridBagLayout());;
+		
 	}
-	
 	/**
-	 * ä¾åºæŠŠmapå’Œå¯¦é«”æ”¾å…¥frame
+	 * ¨Ì§Ç§âmap©M¹êÅé©ñ¤Jframe
 	 */
-	abstract void render();
-	
+	public abstract void render();
 }

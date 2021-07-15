@@ -6,24 +6,25 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
- * @author huangzhangyu
- * èƒŒæ™¯é¡ï¼Œæ‰€æœ‰é“è·¯çš„æ ¹æºï¼Œç´€éŒ„é“è·¯çš„è²¼åœ–ã€è¡Œèµ°è³‡è¨Š
+ * @author huangzhangyu¡BAUAS
+ * ­I´ºÃş¡A©Ò¦³¹D¸ôªº®Ú·½¡A¬ö¿ı¹D¸ôªº¶K¹Ï¡B¦æ¨«¸ê°T
  */
 public abstract class Background {
-
-	private JLabel picture;  //è²¼åœ–
-	private boolean walkable; //æ˜¯å¦å¯ä»¥è¡Œèµ°
+	private JLabel picture; //¶K¹Ï¦bSwing¤¤¬OJLabel
+	private boolean walkable; //¬O§_¥i¥H¦æ¨«
+	
 	
 	/**
-	 * @param path åœ–ç‰‡ä½ç½®
-	 * @return å¤§å°ç›¸åŒçš„åœ–ç‰‡
+	 * @param path ¹Ï¤ù¦ì¸m
+	 * @return ¤j¤p¬Û¦Pªº¹Ï¤ù
 	 */
-	ImageIcon getTransformedIcon(String path) {
+	public ImageIcon getTransformedIcon(String path) {
 		ImageIcon icon = new ImageIcon(path);
 		Image image = icon.getImage();
-		image = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		image = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH); //­×¹¢¨C­Ó¬Û¤ù¤¸¯À
 		return new ImageIcon(image);
 	}
+	
 	
 	public JLabel getPicture() {
 		return picture;
@@ -37,5 +38,4 @@ public abstract class Background {
 	public void setWalkable(boolean walkable) {
 		this.walkable = walkable;
 	}
-
 }

@@ -6,9 +6,8 @@ import Background.Grassland;
 import Background.River;
 
 public class Level1 extends Level {
-
+	
 	public Level1() {
-
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < map[1].length; j++) {
 				map[i][j] = new Grassland();
@@ -46,5 +45,4 @@ public class Level1 extends Level {
 			}
 		}
 	}
-	
 }
