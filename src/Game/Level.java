@@ -36,7 +36,7 @@ public abstract class Level{
 				super.paint(g);
 				for (int i = 0; i < map.length; i++) {
 					for (int j = 0; j < map[0].length; j++) {
-						g.drawImage(map[i][j].getImage(), j * 25, i * 25, this);
+						g.drawImage(map[i][j].getPicture(), j * 25, i * 25, this);
 					}
 				}
 			}

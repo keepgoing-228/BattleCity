@@ -12,44 +12,32 @@ import javax.swing.JLabel;
  * Class for objects to draw on the background of the game. Object on the background cannot be touched
  */
 public abstract class Background {
-	private JLabel picture; //Label for showing the picture
 	private boolean walkable; //Whether tank can walk on this type of background
-	private Image image;  //Picture of the background block
+	private Image picture;  //Picture of the background block
 
 	/**
 	 * @param path the direction of the picture file
 	 * @return Image in 25x25 pixel
 	 */
-	public Image getTransformedImage(String path) {
+	public void setPicture(String path) {
 
 		try {
 			Image image = ImageIO.read(new File(path));
-			image = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH); //Read the file
-			return image;
+			this.picture = image.getScaledInstance(25, 25, Image.SCALE_SMOOTH); //Read the file
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
 		}
 
 	}
-	
-	
-	public JLabel getPicture() {
-		return picture;
-	}
-	public void setPicture(JLabel picture) {
-		this.picture = picture;
-	}
+
 	public boolean isWalkable() {
 		return walkable;
 	}
 	public void setWalkable(boolean walkable) {
 		this.walkable = walkable;
 	}
-	public Image getImage() {
-		return image;
+	public Image getPicture() {
+		return picture;
 	}
-	public void setImage(Image image) {
-		this.image = image;
-	}
+	
 }
