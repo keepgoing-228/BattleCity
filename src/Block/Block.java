@@ -11,22 +11,21 @@ public abstract class Block {
 	private int blood;
 	private Image picture;
 	private int size = 25;  //the block will be size x size big on the frame, used for damage and collision judgment
-	private int[] poisition;  //(x, y) position on the frame
+	private int x;  //x coordinate on the frame
+	private int y;  //y coordinate on the frame
 	private boolean breakable;  //Whether player or computer can damage this block
 	
 	/**
 	 * @param path the direction of the picture file
 	 * @return Image in size x size pixel
 	 */
-	public Image setPicture(String path) {
+	public void setPicture(String path) {
 
 		try {
 			Image image = ImageIO.read(new File(path));
-			image = image.getScaledInstance(size, size, Image.SCALE_SMOOTH); //Read the file
-			return image;
+			this.picture = image.getScaledInstance(size, size, Image.SCALE_SMOOTH); //Read the file
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
 		}
 
 	}
@@ -46,13 +45,21 @@ public abstract class Block {
 	public void setSize(int size) {
 		this.size = size;
 	}
-
-	public int[] getPoisition() {
-		return poisition;
+	
+	public int getX() {
+		return x;
 	}
 
-	public void setPoisition(int[] poisition) {
-		this.poisition = poisition;
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public boolean isBreakable() {
@@ -65,6 +72,10 @@ public abstract class Block {
 
 	public Image getPicture() {
 		return picture;
+	}
+	
+	public void setPicture(Image picture) {
+		this.picture = picture;
 	}
 	
 	/**

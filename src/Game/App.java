@@ -11,10 +11,11 @@ public class App {
 		frame.setSize(800, 629);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	
 		
 		//Choose the level player want to play
 		Level level = new Level1();
-		frame.add(level.background);
+		frame.add(level.pane);
 		frame.setVisible(true);
 		
 	}
