@@ -29,11 +29,9 @@ public class Level2 extends Level {
 	public Level2(JFrame frame) {
 		
 		this.frame = frame;
-		this.buildMap();
 		this.renderBackground();
-		this.buildBlocks();
 		this.renderBlock();
-		this.pane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		this.pane.setPreferredSize(new Dimension(800, 629));
 		this.pane.add(backgroundPanel, 1);
 		this.blockPanel.setOpaque(false); // the function of same panel
 		this.pane.add(blockPanel, 0);
@@ -56,34 +54,6 @@ public class Level2 extends Level {
 			super.keyReleased(e);
 			myTank.keyReleased(e);
 		}
-	}
-
-	@Override
-	protected void buildMap() {
-
-		// set all land are grassland 24x32
-		setAllGrassland();
-
-		// river
-		setRiver(11, 13, 0, 32);
-	}
-
-	@Override
-	protected void buildBlocks() {
-
-		// stone
-		setStoneBlock(0, 5, 11, 13);
-		setStoneBlock(5, 7, 11, 21);
-		setStoneBlock(0, 5, 19, 21);
-
-		setStoneBlock(16, 18, 0, 7);
-		setStoneBlock(18, 24, 5, 7);
-		setStoneBlock(16, 18, 25, 32);
-		setStoneBlock(18, 24, 25, 27);
-
-		// tank
-//		this.blocks.add(myTank);
-
 	}
 
 	@Override
@@ -154,32 +124,5 @@ public class Level2 extends Level {
 		timer.start();
 
 	}
-
-	public void setAllGrassland() {
-		for (gdy = 0; gdy < map.length; gdy++) {
-			for (int gdx = 0; gdx < map[0].length; gdx++) {
-				map[gdy][gdx] = new Grassland();
-			}
-		}
-	}
-
-	public void setRiver(int y1, int y2, int x1, int x2) {
-		for (gdy = y1; gdy < y2; gdy++) {
-			for (gdx = x1; gdx < x2; gdx++) {
-				map[gdy][gdx] = new River();
-			}
-		}
-	}
-
-	public void setStoneBlock(int y1, int y2, int x1, int x2) {
-		for (gdy = y1; gdy < y2; gdy++) {
-			for (gdx = x1; gdx < x2; gdx++) {
-				this.blocks.add(new Stone(gdx, gdy));
-//				System.out.printf("Build block at %d, %d\n", gdx, gdy);
-			}
-		}
-	}
-
-	
 
 }

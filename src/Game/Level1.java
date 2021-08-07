@@ -1,19 +1,8 @@
 package Game;
 
 import java.awt.Dimension;
-<<<<<<< HEAD
-import java.awt.event.KeyEvent;
-=======
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.ObjectInputStream;
->>>>>>> upstream/master
 
 import javax.swing.JLayeredPane;
-
-import Background.Grassland;
-import Background.River;
-import Block.Stone;
 
 public class Level1 extends Level {
 	

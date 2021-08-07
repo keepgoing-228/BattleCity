@@ -125,5 +125,11 @@ public class Tank extends Block{
 		else if(!bL&&!bU&&!bR&&!bD) dir=Direction.STOP;
 		}
 
+
+	@Override
+	public Block clone() {
+		return null;
+	}
+
 	
 }
