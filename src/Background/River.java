@@ -1,13 +1,22 @@
 package Background;
 
-public class River extends Background {
+import java.io.Serializable;
+
+public class River extends Background implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	public River() {
+		picturePath = "static/picture/river.png";
 		this.setWalkable(false);
-		this.setPicture("static/picture/river.png");
+		this.setPicture(picturePath);
 	}
 	
 	public String toString() {
-		return "This is a river";
+		return "River";
+	}
+	
+	public River clone() {
+		return new River();
 	}
 }

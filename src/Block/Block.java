@@ -6,14 +6,18 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public abstract class Block {
+import Map.Material;
 
+public abstract class Block implements Material {
+
+	private static final long serialVersionUID = 1L;
 	private int blood;
-	private Image picture;
-	private int size = 25;  //the block will be size x size big on the frame, used for damage and collision judgment
-	private int x;  //x coordinate on the frame
-	private int y;  //y coordinate on the frame
+	private transient Image picture = null;
+	private int size = 50;  //the block will be size x size big on the frame, used for damage and collision judgment
+	private int x = 0;  //x coordinate on the frame
+	private int y = 0;  //y coordinate on the frame
 	private boolean breakable;  //Whether player or computer can damage this block
+	protected String picturePath = null;
 	
 	/**
 	 * @param path the direction of the picture file
@@ -71,7 +75,12 @@ public abstract class Block {
 	}
 
 	public Image getPicture() {
+		
+		if (picture == null) {
+			this.setPicture(picturePath);
+		}
 		return picture;
+		
 	}
 	
 	public void setPicture(Image picture) {
@@ -95,5 +104,6 @@ public abstract class Block {
 		
 	}
 	
+	public abstract Block clone();
 	
 }

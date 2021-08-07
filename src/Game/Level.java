@@ -1,22 +1,28 @@
 package Game;
 
 import java.awt.Graphics;
+<<<<<<< HEAD
 import java.awt.Graphics2D;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+=======
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+>>>>>>> upstream/master
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Background.Background;
 import Block.Block;
+import Map.Map;
 
 /**
  * @author huangzhangyu A section of the game. Every level should have its own
  *         map, block and enemies settings. These settings should define by
  *         overriding abstract method "drawMap".
  */
+<<<<<<< HEAD
 public abstract class Level {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
@@ -32,25 +38,59 @@ public abstract class Level {
 	 */
 	protected abstract void buildMap();
 
+=======
+public abstract class Level{
+	
+	protected Map map;
+	protected JLayeredPane pane = new JLayeredPane();  //show every component
+	protected JPanel backgroundPanel;  //layer to draw background
+	protected JPanel blockPanel;  //layer to draw real object
+	protected int xSize = 800;
+	protected int ySize = 600;
+	
+>>>>>>> upstream/master
 	/**
-	 * Generate and put blocks into array list.
+	 * Read a map from static/map folder
 	 */
+<<<<<<< HEAD
 	protected abstract void buildBlocks();
 
+=======
+	protected void buildMap(String name) {
+		
+		try {
+			FileInputStream fileInputStream = new FileInputStream("static/map/" + name);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			map = (Map) objectInputStream.readObject();
+			objectInputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+>>>>>>> upstream/master
 	/**
 	 * Draw background objects in the map onto background panel. This method should
 	 * only be called once.
 	 */
 	protected void renderBackground() {
+<<<<<<< HEAD
 
 		this.backgroundPanel = new JPanel() {
 
+=======
+		
+		this.backgroundPanel = new JPanel() {
+			
+>>>>>>> upstream/master
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						g.drawImage(map[i][j].getPicture(), j * 25, i * 25, this);
+				for (int i = 0; i < map.getxSize() / 50; i++) {
+					for (int j = 0; j < map.getySize()/ 50; j++) {
+						System.out.printf("%d %d\n", i, j);
+						g.drawImage(map.getBackground(i, j).getPicture(), i * 50, j * 50, this);
 					}
 				}
 			}
@@ -62,22 +102,33 @@ public abstract class Level {
 	}
 
 	protected void renderBlock() {
+<<<<<<< HEAD
 
 		this.blockPanel = new JPanel() {
+=======
+		
+		blockPanel = new JPanel() {
+>>>>>>> upstream/master
 
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
-				for (int i = 0; i < blocks.size(); i++) {
-					Block block = blocks.get(i);
-					g.drawImage(block.getPicture(), block.getX() * 25, block.getY() * 25, this);
+				for (int i = 0; i < map.getBlocksSize(); i++) {
+					Block block = map.getBlock(i);
+					g.drawImage(block.getPicture(), block.getX() * 50, block.getY() * 50, this);
 				}
 			}
 
 		};
+<<<<<<< HEAD
 
 		this.blockPanel.setBounds(0, 0, WIDTH, HEIGHT);
 
+=======
+		blockPanel.setBounds(0, 0, xSize, ySize);
+		blockPanel.setOpaque(false);
+		
+>>>>>>> upstream/master
 	}
 
 	/**
