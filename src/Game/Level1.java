@@ -1,9 +1,13 @@
 package Game;
 
 import java.awt.Dimension;
+<<<<<<< HEAD
+import java.awt.event.KeyEvent;
+=======
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
+>>>>>>> upstream/master
 
 import javax.swing.JLayeredPane;
 
@@ -26,5 +30,13 @@ public class Level1 extends Level {
 		this.pane.add(blockPanel,JLayeredPane.PALETTE_LAYER);
 		
 	}
+
+	@Override
+	protected void runAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 	
 }
