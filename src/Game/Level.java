@@ -1,13 +1,14 @@
 package Game;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import Background.Background;
 import Block.Block;
+import Map.Map;
 
 /**
  * @author huangzhangyu
@@ -15,36 +16,43 @@ import Block.Block;
  */
 public abstract class Level{
 	
-	protected Background[][] map = new Background[24][32];  //the position of background
-	protected ArrayList<Block> blocks = new ArrayList<Block>();  //blocks on the map
+	protected Map map;
 	protected JLayeredPane pane = new JLayeredPane();  //show every component
-	protected JPanel background;  //layer to draw background
-	protected JPanel block;  //layer to draw real object
-	
-	
-	/**
-	 * Build the map of the level by putting background object into map array in order.
-	 */
-	protected abstract void buildMap();
+	protected JPanel backgroundPanel;  //layer to draw background
+	protected JPanel blockPanel;  //layer to draw real object
+	protected int xSize = 800;
+	protected int ySize = 600;
 	
 	/**
-	 * Generate and put blocks into array list.
+	 * Read a map from static/map folder
 	 */
-	protected abstract void buildBlocks();
+	protected void buildMap(String name) {
+		
+		try {
+			FileInputStream fileInputStream = new FileInputStream("static/map/" + name);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			map = (Map) objectInputStream.readObject();
+			objectInputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * Draw background objects in the map onto background panel. This method should only be called once.
 	 */
 	protected void renderBackground() {
 		
-		this.background = new JPanel() {
+		this.backgroundPanel = new JPanel() {
 			
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
-				for (int i = 0; i < map.length; i++) {
-					for (int j = 0; j < map[0].length; j++) {
-						g.drawImage(map[i][j].getPicture(), j * 25, i * 25, this);
+				for (int i = 0; i < map.getxSize() / 50; i++) {
+					for (int j = 0; j < map.getySize()/ 50; j++) {
+						System.out.printf("%d %d\n", i, j);
+						g.drawImage(map.getBackground(i, j).getPicture(), i * 50, j * 50, this);
 					}
 				}
 			}
@@ -55,18 +63,20 @@ public abstract class Level{
 	
 	protected void renderBlock() {
 		
-		this.block = new JPanel() {
+		blockPanel = new JPanel() {
 
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
-				for (int i = 0; i < blocks.size(); i++) {
-					Block block = blocks.get(i);
-					g.drawImage(block.getPicture(), block.getX() * 25, block.getY() * 25, this);
+				for (int i = 0; i < map.getBlocksSize(); i++) {
+					Block block = map.getBlock(i);
+					g.drawImage(block.getPicture(), block.getX() * 50, block.getY() * 50, this);
 				}
 			}
 			
 		};
+		blockPanel.setBounds(0, 0, xSize, ySize);
+		blockPanel.setOpaque(false);
 		
 	}
 	
