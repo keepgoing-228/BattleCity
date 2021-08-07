@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JLayeredPane;
 
@@ -16,12 +17,10 @@ public class Level1 extends Level {
 		this.buildBlocks();
 		this.renderBackground();
 		this.renderBlock();
-		this.pane.setPreferredSize(new Dimension(800, 629));
-		this.background.setBounds(0, 0, 800, 629);
-		this.pane.add(background, JLayeredPane.DEFAULT_LAYER);
-		this.block.setOpaque(false);
-		this.block.setBounds(0, 0, 800, 629);
-		this.pane.add(block,JLayeredPane.PALETTE_LAYER);
+		this.pane.setPreferredSize(new Dimension(800, 637));
+		this.pane.add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
+		this.blockPanel.setOpaque(false);
+		this.pane.add(blockPanel,JLayeredPane.PALETTE_LAYER);
 		
 	}
 
@@ -68,5 +67,13 @@ public class Level1 extends Level {
 		}
 		
 	}
+
+	@Override
+	protected void runAction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 	
 }
