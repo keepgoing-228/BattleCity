@@ -5,15 +5,13 @@ import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import Block.Block;
 import Map.Map;
 
 /**
- * @author huangzhangyu A section of the game. Every level should have its own
- *         map, block and enemies settings. These settings should define by
- *         overriding abstract method "drawMap".
+ * A section of the game. Every level should have its own map setting. These settings should define by using method buildMap() to read a serialized map.
+ * @author huangzhangyu 
  */
 
 public abstract class Level{
@@ -42,20 +40,21 @@ public abstract class Level{
 	}
 	
 	/**
-	 * Draw background objects in the map onto background panel. This method should
-	 * only be called once.
+	 * Draw background objects in the map onto background panel. This method should only be called once.
 	 */
 	protected void renderBackground() {
 		
 		this.backgroundPanel = new JPanel() {
 			
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);
 				for (int i = 0; i < map.getxSize() / 50; i++) {
 					for (int j = 0; j < map.getySize()/ 50; j++) {
 						System.out.printf("%d %d\n", i, j);
-						g.drawImage(map.getBackground(i, j).getPicture(), i * 50, j * 50, this);
+						g.drawImage(map.getBackground(i, j).getPicture(), i * 50, j * 50, this);  //Draw the background on (i * 50, j * 50).
 					}
 				}
 			}
@@ -66,9 +65,14 @@ public abstract class Level{
 
 	}
 
+	/**
+	 * Draw blocks in the map onto block panel. This method should be called every frame.
+	 */
 	protected void renderBlock() {
 
 		blockPanel = new JPanel() {
+
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void paint(Graphics g) {

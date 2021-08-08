@@ -13,10 +13,10 @@ public abstract class Block implements Material {
 	private static final long serialVersionUID = 1L;
 	private int blood;
 	private transient Image picture = null;
-	private int size = 50;  //the block will be size x size big on the frame, used for damage and collision judgment
-	private int x = 0;  //x coordinate on the frame
-	private int y = 0;  //y coordinate on the frame
-	private boolean breakable;  //Whether player or computer can damage this block
+	private int size = 50;  //the block will be size x pixel big on the frame, used for damage and collision judgment.
+	private int x = 0;  //x coordinate on the frame.
+	private int y = 0;  //y coordinate on the frame.
+	private boolean breakable;  //Whether player or computer can damage this block.
 	protected String picturePath = null;
 	
 	/**

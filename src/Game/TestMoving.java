@@ -14,68 +14,68 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class TestMoving {
-  public static void main(String[] args) {
-    EventQueue.invokeLater(new Runnable() {
-      @Override
-      public void run() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new BackgroundPane());
-        frame.pack();
-        frame.setVisible(true);
-      }
-    });
-  }
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				JFrame frame = new JFrame();
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.add(new BackgroundPane());
+				frame.pack();
+				frame.setVisible(true);
+			}
+		});
+	}
 }
 
 class BackgroundPane extends JPanel {
-  private BufferedImage bg;
-  private int yOffset = 0;
-  private int yDelta = 4;
+	private BufferedImage bg;
+	private int yOffset = 0;
+	private int yDelta = 4;
 
-  public BackgroundPane() {
-    try {
-      bg = ImageIO.read(new URL("http://www.java2s.com/style/download.png"));
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
+	public BackgroundPane() {
+		try {
+			bg = ImageIO.read(new URL("http://www.java2s.com/style/download.png"));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-    Timer timer = new Timer(100, new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        yOffset += yDelta;
-        if (yOffset > getHeight()) {
-          yOffset = 0;
-        }
-        repaint();
-      }
-    });
-    timer.start();
-  }
+		Timer timer = new Timer(100, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				yOffset += yDelta;
+				if (yOffset > getHeight()) {
+					yOffset = 0;
+				}
+				repaint();
+			}
+		});
+		timer.start();
+	}
 
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(bg.getWidth(),bg.getHeight());
-  }
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(bg.getWidth(), bg.getHeight());
+	}
 
-  @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    Graphics2D g2d = (Graphics2D) g.create();
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
 
-    int xPos = (getWidth() - bg.getWidth()) / 2;
-    int yPos = yOffset;
+		int xPos = (getWidth() - bg.getWidth()) / 2;
+		int yPos = yOffset;
 
-//    yPos = yOffset;
-    while (yPos < getHeight()) {
-      g2d.drawImage(bg, xPos, yPos, this);
-      yPos += bg.getHeight();
-//      xPos += 1; 
-      System.out.println(yPos);
-      System.out.println(bg.getHeight());
+		//    yPos = yOffset;
+		while (yPos < getHeight()) {
+			g2d.drawImage(bg, xPos, yPos, this);
+			yPos += bg.getHeight();
+			//      xPos += 1; 
+			System.out.println(yPos);
+			System.out.println(bg.getHeight());
 
-    }
+		}
 
-    g2d.dispose();
-  }
+		g2d.dispose();
+	}
 }

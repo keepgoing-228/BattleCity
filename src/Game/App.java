@@ -1,14 +1,14 @@
 package Game;
 
-import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+/**
+ * The main application of this game. It will generate a new frame and put a chosen or written panel into it.
+ * @author huangzhangyu
+ */
 public class App {
 
 	public static void main(String[] args) {
@@ -16,15 +16,14 @@ public class App {
 		
 		//Create frame of the game
 		JFrame frame = new JFrame();
-		frame.setPreferredSize(new Dimension(800, 600) );
-		frame.setSize(815, 637);
-//		frame.setResizable(false);
+		frame.setSize(800, 629);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
 		
 		//Choose the level player want to play
-		Level level = new Level2(frame);
+		Level level = new Level1();
 		frame.add(level.pane);
 		frame.setVisible(true);
 		

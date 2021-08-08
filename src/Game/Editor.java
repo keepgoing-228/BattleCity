@@ -35,6 +35,10 @@ import Block.Stone;
 import Map.Map;
 import Map.Material;
 
+/**
+ * An editor that user can draw a map and save it.
+ * @author huangzhangyu
+ */
 public class Editor extends JFrame implements ActionListener{
 
 	public static void main(String[] args) {
@@ -50,17 +54,17 @@ public class Editor extends JFrame implements ActionListener{
 	private Map map;
 	private JPanel backgroundPanel;
 	private JPanel blockPanel;
-	private int xSize, ySize;
-	private MaterialSelector materialSelector;
-	private Material selectedMaterial;
-	private int pictureSize = 50;
+	private int xSize, ySize;  //Size in pixels.
+	private MaterialSelector materialSelector;  //Frame for choosing type of material, eraser and save.
+	private Material selectedMaterial;  //Material which selected in the selector.
+	private int pictureSize = 50;  //Size in pixels.
 
 	public Editor(int xSize, int ySize) {
 				
 		super("Map Editor");
 		this.xSize = xSize;
 		this.ySize = ySize;
-		this.setSize(xSize, ySize + 29);
+		this.setSize(xSize, ySize + 29);  //The size of the frame should be 29 frame bigger than the map.
 		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setLayout(new GridBagLayout());
@@ -68,6 +72,7 @@ public class Editor extends JFrame implements ActionListener{
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		
+		//ButtonLayer is used to check user's click events. Whenever a click event happen, the selected material will be put on the position of the activated button.
 		buttonLayer.setLayout(new GridBagLayout());
 		JButton button;
 		for (int i = 0; i < xSize / pictureSize; i++) {
@@ -88,6 +93,7 @@ public class Editor extends JFrame implements ActionListener{
 		pane.setPreferredSize(new Dimension(xSize, ySize));
 		pane.add(buttonLayer, JLayeredPane.DEFAULT_LAYER);
 		
+		//Create a white map.
 		map = new Map(xSize, ySize, 50);
 		renderBackground();
 		pane.add(backgroundPanel, JLayeredPane.PALETTE_LAYER);
@@ -102,6 +108,9 @@ public class Editor extends JFrame implements ActionListener{
 				
 	}
 
+	/**
+	 * Render background panel. Each piece of background in the array will be print as an icon label on this panel with a black border. A white square will be printed if there has no block.
+	 */
 	private void renderBackground() {
 		
 		backgroundPanel = new JPanel();
@@ -127,6 +136,9 @@ public class Editor extends JFrame implements ActionListener{
 		
 	}
 	
+	/**
+	 * Paints blocks in the array list onto block panel through override paint method.
+	 */
 	private void renderBlock() {
 		
 		blockPanel = new JPanel() {
@@ -138,7 +150,7 @@ public class Editor extends JFrame implements ActionListener{
 				super.paint(g);
 				for (int i = 0; i < map.getBlocksSize(); i++) {
 					Block block = map.getBlock(i);
-					g.drawImage(block.getPicture(), block.getX() * 50, block.getY() * 50, this);
+					g.drawImage(block.getPicture(), block.getX() * 50, block.getY() * 50, this);  //Draw the image on position (x * 50, y * 50), the picture size is defined in block class.
 				}
 			}
 			
@@ -155,6 +167,7 @@ public class Editor extends JFrame implements ActionListener{
 		int y = Integer.parseInt(e.getActionCommand().split("-")[1]);
 		
 		pane.removeAll();
+		//Check the type of selected material.
 		if (selectedMaterial != null) {
 			if (selectedMaterial.getClass().getSuperclass().getName().equals("Background.Background")) {
 				map.setBackground((Background) selectedMaterial.clone(), x, y);
@@ -170,6 +183,7 @@ public class Editor extends JFrame implements ActionListener{
 				renderBlock();
 			}
 		} else {
+			//If (x, y) has a block than first erase the block.
 			if (map.hasBlock(x, y)) {
 				map.removeBlock(x, y);
 				renderBlock();
@@ -190,12 +204,16 @@ public class Editor extends JFrame implements ActionListener{
 		
 	}
 	
+	/**
+	 * Frame for choosing material that want to draw on the map.
+	 * @author huangzhangyu
+	 */
 	private class MaterialSelector extends JFrame{
 		
 		private static final long serialVersionUID = 1L;
 		private ArrayList<Material> materialList = new ArrayList<Material>();
-		private JPanel selectorPanel;
-		private ButtonGroup buttonGroup;
+		private JPanel selectorPanel;  //Show materials for selection.
+		private ButtonGroup buttonGroup;  //A group of radio button.
 		private JTextField nameField = new JTextField(10);  //The name of this map.
 		
 		public MaterialSelector() {
@@ -206,6 +224,7 @@ public class Editor extends JFrame implements ActionListener{
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setLayout(new GridBagLayout());
 			
+			//Place to save the map.
 			JMenu file = new JMenu("File");
 			JMenuItem save = new JMenuItem("save");
 			save.addActionListener(new ActionListener() {
@@ -238,7 +257,7 @@ public class Editor extends JFrame implements ActionListener{
 			c.insets = new Insets(5, 5, 5, 5);
 			c.fill = GridBagConstraints.BOTH;
 			
-			addBackgroundType();
+			addMaterialType();
 			renderMaterial(0);
 			c.gridx = 0;
 			c.gridy = 1;
@@ -248,7 +267,10 @@ public class Editor extends JFrame implements ActionListener{
 		}
 		
 		
-		private void addBackgroundType() {
+		/**
+		 * Add all of the material which can be draw on the map manually.
+		 */
+		private void addMaterialType() {
 			
 			materialList.add(new Grassland());
 			materialList.add(new River());
