@@ -8,7 +8,7 @@ public class Level1 extends Level {
 	
 	public Level1() {
 		
-		this.buildMap("test");
+		this.readMap("test1");
 		this.renderBackground();
 		this.renderBlock();
 		this.pane.setPreferredSize(new Dimension(800, 629));
@@ -17,15 +17,8 @@ public class Level1 extends Level {
 		this.blockPanel.setOpaque(false);
 		this.blockPanel.setBounds(0, 0, 800, 629);
 		this.pane.add(blockPanel,JLayeredPane.PALETTE_LAYER);
+		runAction();
 		
-	}
-
-	@Override
-	protected void runAction() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
+	}	
 	
 }

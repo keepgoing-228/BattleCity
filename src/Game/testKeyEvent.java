@@ -3,15 +3,15 @@ package Game;
 import java.awt.*;
 import java.awt.event.*;
   
-public class testKeyEvent extends KeyAdapter {
+public class TestKeyEvent extends KeyAdapter {
     Frame frame;
     TextArea text;
       
     public static void main(String[] args) {
-        new testKeyEvent();
+        new TestKeyEvent();
     }
       
-    public testKeyEvent() {
+    public TestKeyEvent() {
         frame = new Frame("AWTDemo");
         frame.addWindowListener(new AdapterDemo());
         frame.setSize(600, 400);

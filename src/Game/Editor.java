@@ -9,7 +9,9 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ import Background.Grassland;
 import Background.River;
 import Block.Block;
 import Block.Stone;
+import Block.Tank;
 import Map.Map;
 import Map.Material;
 
@@ -137,7 +140,7 @@ public class Editor extends JFrame implements ActionListener{
 	}
 	
 	/**
-	 * Paints blocks in the array list onto block panel through override paint method.
+	 * Paints blocks in the array list and tank onto block panel through override paint method.
 	 */
 	private void renderBlock() {
 		
@@ -150,7 +153,11 @@ public class Editor extends JFrame implements ActionListener{
 				super.paint(g);
 				for (int i = 0; i < map.getBlocksSize(); i++) {
 					Block block = map.getBlock(i);
-					g.drawImage(block.getPicture(), block.getX() * 50, block.getY() * 50, this);  //Draw the image on position (x * 50, y * 50), the picture size is defined in block class.
+					g.drawImage(block.getPicture(), block.getX(), block.getY(), this);  //Draw the image on position (x, y), the picture size is defined in block class.
+				}
+				Tank myTank = map.getTank();
+				if (myTank != null) {
+					g.drawImage(myTank.getPicture(), myTank.getX(), myTank.getY(), this);				
 				}
 			}
 			
@@ -165,6 +172,8 @@ public class Editor extends JFrame implements ActionListener{
 
 		int x = Integer.parseInt(e.getActionCommand().split("-")[0]);
 		int y = Integer.parseInt(e.getActionCommand().split("-")[1]);
+		int xInPixel = x * 50;
+		int yInPixel = y * 50;
 		
 		pane.removeAll();
 		//Check the type of selected material.
@@ -172,21 +181,30 @@ public class Editor extends JFrame implements ActionListener{
 			if (selectedMaterial.getClass().getSuperclass().getName().equals("Background.Background")) {
 				map.setBackground((Background) selectedMaterial.clone(), x, y);
 				renderBackground();
-			} else if (selectedMaterial.getClass().getSuperclass().getName().equals("Block.Block")){
-				Block block = (Block) selectedMaterial.clone();
-				block.setX(x);
-				block.setY(y);
-				map.addBlock(block);
+			} else if (selectedMaterial.getClass().getName().equals("Block.Tank")){
+				//If (x, y) has a block than first erase the block.
+				map.removeBlock(xInPixel, yInPixel);
+				Tank myTank = (Tank) selectedMaterial.clone();
+				myTank.setX(xInPixel);
+				myTank.setY(yInPixel);
+				map.setTank(myTank);
 				renderBlock();
-			} else {
-				map.addBlock((Block) selectedMaterial.clone());
+			} else if (selectedMaterial.getClass().getSuperclass().getName().equals("Block.Block")){
+				//If (x, y) has a block than first erase the block.
+				map.removeBlock(xInPixel, yInPixel);
+				Block block = (Block) selectedMaterial.clone();
+				block.setX(xInPixel);
+				block.setY(yInPixel);
+				map.addBlock(block);
 				renderBlock();
 			}
 		} else {
 			//If (x, y) has a block than first erase the block.
-			if (map.hasBlock(x, y)) {
-				map.removeBlock(x, y);
+			if (map.hasBlock(xInPixel, yInPixel)) {
+				map.removeBlock(xInPixel, yInPixel);
 				renderBlock();
+			} else if (map.getTank().getX() == xInPixel && map.getTank().getY() == yInPixel){
+				map.setTank(null);
 			} else {
 				map.setBackground(null, x, y);
 				renderBackground();
@@ -200,7 +218,20 @@ public class Editor extends JFrame implements ActionListener{
 		pane.repaint();
 		pane.revalidate();
 		this.revalidate();
-		System.out.println(blockPanel.getSize());
+		
+	}
+	
+	private void reload() {
+		
+		pane.removeAll();
+		renderBackground();
+		renderBlock();
+		pane.add(buttonLayer, JLayeredPane.DEFAULT_LAYER);
+		pane.add(backgroundPanel, JLayeredPane.PALETTE_LAYER);
+		pane.add(blockPanel, JLayeredPane.MODAL_LAYER);
+		pane.repaint();
+		pane.revalidate();
+		this.revalidate();
 		
 	}
 	
@@ -219,7 +250,7 @@ public class Editor extends JFrame implements ActionListener{
 		public MaterialSelector() {
 			
 			super("Item Selector");
-			this.setSize(200, 400);
+			this.setSize(200, 500);
 			this.setResizable(false);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.setLayout(new GridBagLayout());
@@ -249,6 +280,31 @@ public class Editor extends JFrame implements ActionListener{
 				
 			});
 			file.add(save);
+			
+			JMenuItem load = new JMenuItem("load");
+			load.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					try {
+						
+						FileInputStream fileInputStream = new FileInputStream("static/map/" + nameField.getText());
+						ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+						map = (Map) objectInputStream.readObject();
+						objectInputStream.close();
+						reload();
+						
+					} catch(Exception e1) {
+						e1.printStackTrace();
+					}
+					
+				}
+				
+				
+			});
+			file.add(load);
+			
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.add(file);
 			this.setJMenuBar(menuBar);
@@ -275,6 +331,7 @@ public class Editor extends JFrame implements ActionListener{
 			materialList.add(new Grassland());
 			materialList.add(new River());
 			materialList.add(new Stone());
+			materialList.add(new Tank());
 			
 		}
 		

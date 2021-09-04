@@ -2,57 +2,22 @@ package Block;
 
 import java.awt.event.KeyEvent;
 
-public class Tank extends Block{
+public class Tank extends Block implements Moveable{
 	
-	
+	private static final long serialVersionUID = 1L;
 	public boolean bL=false, bU=false, bR=false, bD=false;  // control of the dir
-	public enum Direction {
-		W  (-1, 0, "static/picture/tankWest.png"),
-		NW (-1,-1, "static/picture/tankNorthWest.png"), 
-		N  ( 0,-1, "static/picture/tankNorth.png"), 
-		NE ( 1,-1, "static/picture/tankNorthEast.png"), 
-		E  ( 1, 0, "static/picture/tankEast.png"), 
-		SE ( 1, 1, "static/picture/tankSouthEast.png"), 
-		S  ( 0, 1, "static/picture/tankSouth.png"), 
-		SW (-1, 1, "static/picture/tankSouthWest.png"), 
-		STOP(0, 0);
-		
-		private int xSpeed;
-		private int ySpeed;
-		private String pic;
-		Direction(int xSpeed, int ySpeed, String pic) {
-			this.xSpeed = xSpeed;
-			this.ySpeed = ySpeed;
-			this.pic = pic;
-		}
-		Direction(int xSpeed, int ySpeed) {
-			this.xSpeed = xSpeed;
-			this.ySpeed = ySpeed;
-		}
-		public int getxSpeed() {
-			return xSpeed;
-		}
-		public int getySpeed() {
-			return ySpeed;
-		}
-		public String getPic() {
-			return pic;
-		}
-	}
 	public Direction dir = Direction.STOP;
-	
-	public Tank(int x, int y){
+
+	public Tank() {
 		
 		this.setBlood(10);
 		this.setBreakable(true);
-		this.setX(x);
-		this.setY(y);
-		this.setSize(25);
-		this.setPicture("static/picture/tankNorth.png"); //initial direction is north
+		picturePath = "static/picture/tankNorth.png";
+		this.setPicture(picturePath); //initial direction is north
 		
 	}
 	
-	
+
 	public void KeyPressed(KeyEvent e) {
 		int key = e.getKeyCode(); // store the keyboard in integer
 		switch (key) {
@@ -79,6 +44,10 @@ public class Tank extends Block{
 			break;
 		case KeyEvent.VK_A:
 			bL = true;
+			break;
+		case KeyEvent.VK_CONTROL:
+			//¥Í¦¨bullet
+			
 			break;
 		}
 		locateDirection(); //composite
@@ -123,13 +92,25 @@ public class Tank extends Block{
 		else if(!bL&&!bU&&!bR&&bD) dir=Direction.S;
 		else if(bL&&!bU&&!bR&&bD) dir=Direction.SW;
 		else if(!bL&&!bU&&!bR&&!bD) dir=Direction.STOP;
-		}
+	}
 
 
 	@Override
 	public Block clone() {
-		return null;
+		
+		Tank tank = new Tank();
+		tank.setX(this.getX());
+		tank.setY(this.getY());
+		return tank;
+	
+	}
+	
+	@Override
+	public String toString() {
+		
+		return "Tank";
+		
 	}
 
-	
+
 }

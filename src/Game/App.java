@@ -16,7 +16,7 @@ public class App {
 		
 		//Create frame of the game
 		JFrame frame = new JFrame();
-		frame.setSize(800, 629);
+		frame.setSize(810, 629);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -25,6 +25,7 @@ public class App {
 		//Choose the level player want to play
 		Level level = new Level1();
 		frame.add(level.pane);
+		frame.addKeyListener(level.keyAdapter);
 		frame.setVisible(true);
 		
 		frame.addWindowListener(new WindowListener() {
